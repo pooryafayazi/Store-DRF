@@ -1,6 +1,6 @@
 services:
   redis:
-    container_name: redis
+    container_name: redis-store
     image: redis:7.2.4
     restart: always
     ports:
@@ -9,7 +9,7 @@ services:
       - redis_data:/data
     command: redis-server --save 60 1 --loglevel warning
   db:
-    container_name: db
+    container_name: db-store
     image: postgres:17.2
     volumes:
       - ./postgres/data:/var/lib/postgresql/data/
@@ -27,7 +27,7 @@ services:
   
 
   backend:
-    container_name: backend
+    container_name: backend-store
     build:    
       context: .
       dockerfile: ./dockerfiles/dev/django/Dockerfile

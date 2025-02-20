@@ -38,14 +38,15 @@ class Command(BaseCommand):
         categories = ProductCategoryModel.objects.all()
 
         for _ in range(10):
-            title = faker.catch_phrase()
+            # title = faker.catch_phrase()
+            title = faker.word()
             slug = slugify(title, allow_unicode=True)
             selected_category = random.sample(list(categories), random.randint(1, 4))
             selected_image = choice(self.IMAGE_LIST)
             image_obj = File(open(BASE_DIR / selected_image, 'rb'), name=Path(selected_image).name)
             description = faker.text()
             stock = faker.random_int(min=0, max=100)
-            price = faker.random_int(min=100000, max=100000000)
+            price = faker.random_int(min=10, max=10000) * 1000
             discount_percent = faker.random_int(min=0, max=50)
 
             product = ProductModel.objects.create(

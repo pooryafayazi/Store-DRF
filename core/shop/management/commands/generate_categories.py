@@ -7,7 +7,7 @@ class Command(BaseCommand):
     help = 'Create fake ProductCategoryModel entries'
 
     def handle(self, *args, **kwargs):
-        faker = Faker()
+        faker = Faker(locale='fa_IR')
         
         for _ in range(10):
             title = faker.word()

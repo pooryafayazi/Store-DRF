@@ -26,7 +26,7 @@ class Command(BaseCommand):
     ]
 
     def handle(self, *args, **kwargs):
-        faker = Faker()
+        faker = Faker(locale='fa_IR')
         superusers = User.objects.filter(type=UserType.superuser.value)
 
         if superusers.exists():  # Check if there are any superusers
@@ -39,7 +39,7 @@ class Command(BaseCommand):
 
         for _ in range(10):
             # title = faker.catch_phrase()
-            title = faker.word()
+            title = ' '.join([faker.word() for _ in range(1, 3)])
             slug = slugify(title, allow_unicode=True)
             selected_category = random.sample(list(categories), random.randint(1, 4))
             selected_image = choice(self.IMAGE_LIST)
@@ -47,6 +47,7 @@ class Command(BaseCommand):
             brief_description = faker.paragraph(nb_sentences=3)
             # brief_description = faker.sentence(nb_words=10)
             description = faker.text()
+            description = faker.paragraph(nb_sentences=10)
             stock = faker.random_int(min=0, max=100)
             price = faker.random_int(min=10, max=10000) * 1000
             discount_percent = faker.random_int(min=0, max=50)

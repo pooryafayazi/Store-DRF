@@ -12,6 +12,7 @@ from .models import ProductModel, ProductStatusType, ProductCategoryModel, Prodo
 class ShopProductGridView(ListView):
     template_name = 'shop/product-grid.html'
     queryset = ProductModel.objects.filter(status=ProductStatusType.published.value)
+    paginate_by = 9
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

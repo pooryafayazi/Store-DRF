@@ -176,3 +176,5 @@ cython_debug/
 /core/assets/*
 
 /core/staticfiles/*
+
+/core/media/*

@@ -44,6 +44,8 @@ class Command(BaseCommand):
             selected_category = random.sample(list(categories), random.randint(1, 4))
             selected_image = choice(self.IMAGE_LIST)
             image_obj = File(open(BASE_DIR / selected_image, 'rb'), name=Path(selected_image).name)
+            brief_description = faker.paragraph(nb_sentences=3)
+            # brief_description = faker.sentence(nb_words=10)
             description = faker.text()
             stock = faker.random_int(min=0, max=100)
             price = faker.random_int(min=10, max=10000) * 1000
@@ -54,10 +56,11 @@ class Command(BaseCommand):
                 title=title,
                 slug=slug,
                 image=image_obj,
+                brief_description = brief_description,
                 description=description,
                 stock=stock,
-                # status=ProductStatusType.published.value,
-                status=choice(ProductStatusType.choices)[0],
+                status=ProductStatusType.published.value,
+                # status=choice(ProductStatusType.choices)[0],
                 price=price,
                 discount_percent=discount_percent
             )

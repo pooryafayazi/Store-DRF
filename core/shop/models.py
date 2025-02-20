@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 
-class ProductStatus(models.IntegerChoices):
+class ProductStatusType(models.IntegerChoices):
     draft = 1, 'draft'
     published = 2, 'published'
     archived = 3, 'archived'
@@ -26,15 +26,18 @@ class ProductModel(models.Model):
     description = models.TextField()
     stock = models.PositiveIntegerField(default=0)
     # status = models.IntegerField(choices=[(1, 'draft'), (2, 'published'), (3, 'archived')], default=1)
-    status = models.IntegerField(choices=ProductStatus.choices, default=ProductStatus.draft.value)
+    status = models.IntegerField(choices=ProductStatusType.choices, default=ProductStatusType.draft.value)
     price = models.DecimalField(default=0, max_digits=12, decimal_places=0)
-    discount_percent = models.PositiveIntegerField(default=0)    
+    discount_percent = models.PositiveIntegerField(default=0)
+    
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return self.title
     
+class Meta:
+    ordering = ['-created_date']
 
 class ProdoctImageModel(models.Model):
     product = models.ForeignKey('accounts.User', on_delete=models.CASCADE)

@@ -10,11 +10,11 @@ class UserType(models.IntegerChoices):
     costumer = 1 , _('costumer')
     admin = 2 , _('admin')
     superuser = 3 , _('superuser')
-    
-    
+
+
 
 class UserManager(BaseUserManager):
-    
+
     def create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError(_('The Email field must be set'))
@@ -23,7 +23,7 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
-    
+
     def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
@@ -51,7 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     # REQUIRED_FIELDS = ['first_name', 'last_name']
     objects = UserManager()
-    
+
     def __str__(self):
         return self.email
 

@@ -11,13 +11,13 @@ class ProductCategoryModelAdmin(admin.ModelAdmin):
 
 @admin.register(ProductModel)
 class ProductModelAdmin(admin.ModelAdmin):
-    list_display = ["id", "title", "stock", "status", "price", "discount_percent" , "created_date"]
+    list_display = ["title", "id", "stock", "status", "price", "discount_percent" , "created_date"]
     searching_fields = ["id", "title", "status"]
 
 
 @admin.register(ProdoctImageModel)
 class ProdoctImageModelAdmin(admin.ModelAdmin):
-    list_display = ["id", "product", "created_date"]
+    list_display = ["product", "id", "created_date"]
     searching_fields = ["id", "product"]
 
 

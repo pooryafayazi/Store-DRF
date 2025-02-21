@@ -1,3 +1,4 @@
+
 services:
   redis:
     container_name: redis-store
@@ -8,24 +9,24 @@ services:
     volumes:
       - redis_data:/data
     command: redis-server --save 60 1 --loglevel warning
+  
   db:
     container_name: db-store
     image: postgres:17.2
     volumes:
       - ./postgres/data:/var/lib/postgresql/data/
     env_file:
-      - ./envs/dev/django/.env
+      - .env
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     expose:
       - "5432"
     ports:
       - "5432:5432"
     restart: always
   
-
   backend:
     container_name: backend-store
     build:    
@@ -39,17 +40,27 @@ services:
     ports:
       - "8000:8000"    
     env_file:
-      - ./envs/dev/django/.env
+      - .env
     restart: always
     depends_on:
       - db
       - redis
 
+  worker:
+    container_name: worker-store
+    build:
+      context: .
+      dockerfile: ./dockerfiles/dev/django/Dockerfile
+    # command: celery -A core worker -l INFO
+    command: celery -A core worker --loglevel=info
+    volumes:
+      - ./core:/app
+    environment:
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
+    depends_on:
+      - backend
+      - redis
+
 volumes:
   postgres_data:
   redis_data:
-
-
-
-
-
